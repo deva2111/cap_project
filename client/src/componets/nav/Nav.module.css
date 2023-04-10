@@ -1,19 +1,26 @@
 .mainNav{
    color: white;
-   background-color:rgb(81, 148, 215);
+   background-color:rgb(55, 97, 138);
    display:flex;
    justify-content: space-between;
    padding: 15px ;
 
 }
 
+
 .rightSideNav{
    display: flex;
    align-items: left;
+   justify-content: space-between;
+}
+
+.rightSideNav h3 {
+   margin: 0;
 }
 .rightSideNav i {
    font-size: 30px;
    margin-right: 10px;
+   
 }
 
 .container2{
@@ -29,10 +36,10 @@
 }
 
 .linkBTN{
-   color:rgba(0, 0, 0, 0.5);
+   color:rgb(0, 0, 0);
    text-decoration: none;
 }
 .linkBTN:hover{
-   color:rgba(0, 0, 0, 0.5);
+   color:rgb(255, 255, 255);
    text-decoration: underline;
 }

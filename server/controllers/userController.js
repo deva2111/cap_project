@@ -31,7 +31,7 @@ const signinController = async(req, res) => {
                 const token = jwt.sign({
                     email: existingUser.email,
                     id: existingUser._id
-                }, config.get("JWT_SECRET"), {expiresIn: "1h"})
+                }, config.get("JWT_SECRET"), {expiresIn: "5"})
         
                 res
                     .status(200)
@@ -50,6 +50,8 @@ const signinController = async(req, res) => {
             return res.status(400).json({message: "Invalid field!"});
         try {
             const existingUser = await User.findOne({email})
+
+            
     
             if (!existingUser) 
                 return res.status(404).json({message: "User don't exist!"})
@@ -62,7 +64,7 @@ const signinController = async(req, res) => {
             const token = jwt.sign({
                 email: existingUser.email,
                 id: existingUser._id
-            }, config.get("JWT_SECRET"), {expiresIn: "1h"})
+            }, config.get("JWT_SECRET"), {expiresIn: "5"})
     
             res
                 .status(200)
@@ -102,7 +104,7 @@ const signupController = async(req, res) => {
                 const token = jwt.sign({
                     email: result.email,
                     id: result._id
-                }, config.get("JWT_SECRET"), {expiresIn: "1h"})
+                }, config.get("JWT_SECRET"), {expiresIn: "5"})
 
                 res
                     .status(200)
@@ -134,7 +136,7 @@ const signupController = async(req, res) => {
             const token = jwt.sign({
                 email: result.email,
                 id: result._id
-            }, config.get("JWT_SECRET"), {expiresIn: "1h"})
+            }, config.get("JWT_SECRET"), {expiresIn: "5"})
 
             res
                 .status(200)

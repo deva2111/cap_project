@@ -6,6 +6,8 @@ import Login from "./componets/login";
 import Signup from "./componets/signup";
 import Nav from "./componets/nav";
 import DashLayout from './componets/Layout';
+import ForgotPassword from './componets/Forgotpassword';
+
 
 function App() {
   return (
@@ -15,8 +17,8 @@ function App() {
         
         <Route path="/account/login" element={<Login/>}/>
         <Route path="/account/signup" element={<Signup/>}/>
-        <Route path="/home" element={<DashLayout/>}/>
-        
+        <Route path="/" element={<DashLayout/>}/>
+        <Route path="account/forgotpassword" element={<ForgotPassword/>}/>
         
         
         

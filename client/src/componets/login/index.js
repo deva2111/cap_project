@@ -1,36 +1,38 @@
 import React, {useState} from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginStyles from "./Login.module.css"
-import {useGoogleLogin} from '@react-oauth/google';
-import {useDispatch} from 'react-redux';
-import {signinGoogle, signin} from "../../redux/actions/auth";
+import { useGoogleLogin } from '@react-oauth/google';
+import { useDispatch } from 'react-redux';
+import { signinGoogle, signin } from "../../redux/actions/auth";
 
 
-function Login() {
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
+function Login(props) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const navigate = useNavigate ()
-    const dispatch = useDispatch()
-    
-
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     function handleGoogleLoginSuccess(tokenResponse) {
-
         const accessToken = tokenResponse.access_token;
-
-        dispatch(signinGoogle(accessToken,navigate))
+        dispatch(signinGoogle(accessToken, navigate))
     }
-    const login = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
 
-    function handleSubmit(e){
+    const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
+
+    function handleSubmit(e) {
         e.preventDefault();
-        if(email !== "" && password !== ""){
-            dispatch(signin({email,password}, navigate))
+        if (email !== "" && password !== "") {
+            dispatch(signin({ email, password }, navigate))
+            .catch(error => {
+                if (error.response && error.response.status === 404) {
+                    setErrorMessage("Invalid email or password");
+                }
+            })
+        } else {
+            alert("Please enter your email and password");
         }
-        
-
     }
 
     return (
@@ -40,12 +42,12 @@ function Login() {
 
                 <div className={LoginStyles.inputContainer}>
                     <label>EMAIL</label>
-                    <input onChange={e=> setEmail(e.target.value)} placeholder="enter your email" type="email"/>
+                    <input onChange={e => setEmail(e.target.value)} placeholder="enter your email" type="email" required />
                 </div>
 
                 <div className={LoginStyles.inputContainer}>
                     <label>PASSWORD</label>
-                    <input onChange={e=> setPassword(e.target.value)} placeholder="enter your password" type="password"/>
+                    <input onChange={e => setPassword(e.target.value)} placeholder="enter your password" type="password" required />
                 </div>
 
                 <div className={LoginStyles.forgetmeContainer}>
@@ -53,33 +55,35 @@ function Login() {
                         Remember Me <input type="checkbox" />
                     </div>
                     <div>
-                        <Link to="/account/forgotpassowrd">Forgot password?</Link>
+                        <Link to="/account/forgotpassword">Forgot password?</Link>
                     </div>
                 </div>
-                <form onClick={handleSubmit}>
-                    <Link to ="/home">
-                    <button  className={LoginStyles.loginBTN}>LOGIN</button>
-
-                    </Link>
-                
+                <form onSubmit={handleSubmit}>
+                    <button className={LoginStyles.loginBTN}>LOGIN</button>
                 </form>
-                
 
-                
+                {errorMessage && (
+                    <div className={LoginStyles.errorMessage}>
+                        {errorMessage}
+                    </div>
+                )}
+
                 <span className={LoginStyles.or}>or</span>
-                 <button onClick={() => login()} className={LoginStyles.googleBTN}>
-                    <i class="fa-brands fa-google"></i>  Sign in with google</button>
-                
-                    
-                    <span className={LoginStyles.notreg}>Not registered yet?  <Link className={LoginStyles.singupBTN} to="/account/signup">Signup</Link></span>
-                    
-            </div>
+                <button onClick={() => login()} className={LoginStyles.googleBTN}>
+                    <i class="fa-brands fa-google"></i>  Sign in with google
+                </button>
 
+                <span className={LoginStyles.notreg}>
+                    Not registered yet?{" "}
+                    <Link className={LoginStyles.singupBTN} to="/account/signup">
+                        Signup
+                    </Link>
+                </span>
+
+            </div>
         </div>
     )
-
-  
-   
 }
 
 export default Login;
+
